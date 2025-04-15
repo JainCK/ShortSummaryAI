@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+*.pyd
+.pytest_cache/
+
+# Virtual Environment
+venv/
+
+# OS Specific
+.DS_Store
+Thumbs.db
+
+# Other common exclusions (you might need more depending on your frontend)
+node_modules/
+.env # If you store environment variables in a .env file (for development)
+
+.env
