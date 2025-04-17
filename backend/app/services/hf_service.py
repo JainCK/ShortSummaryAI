@@ -60,10 +60,10 @@ class HuggingFaceService:
         """Generate a summary of the provided text"""
         model = settings.HF_SUMMARY_MODEL
         payload = {
-            "inputs": text,
+            "inputs": f"Generate a short summary of the provided text: {text}",
             "parameters": {
                 "max_length": 150,
-                "min_length": 100,
+                "min_length": 50,
                 "do_sample": False,
             }
         }
@@ -85,32 +85,32 @@ class HuggingFaceService:
         )
     
     async def generate_bullet_points(self, text: str) -> str:
-        """Generate bullet points from the provided text"""
+    # Generate bullet points from the provided text
         model = settings.HF_BULLET_MODEL
         payload = {
-            "inputs": f"Summarize the following text in bullet points: {text}",
+            "inputs": f"Summarize the following text into short bullet points: {text}",
             "parameters": {
                 "max_length": 250,
                 "min_length": 50,
                 "do_sample": False
             }
         }
-        
+    
         result = await self._make_inference_request(model, payload)
-        
-        # Extract bullet points text from response
+    
+    # Extract bullet points text from response
         if isinstance(result, list) and len(result) > 0:
             if "summary_text" in result[0]:
-                return result[0]["summary_text"]
+                return result[0]["summary_text"].replace(", ", "\n")
             elif "generated_text" in result[0]:
-                return result[0]["generated_text"]
+                return result[0]["generated_text"].replace(", ", "\n")
             else:
-                return result[0].get("text", "")
-        
+                return result[0].get("text", "").replace(", ", "\n")
+    
         raise HTTPException(
             status_code=500,
             detail="Unexpected response format from Hugging Face API"
-        )
+        )   
 
 # Singleton instance of the service
 hf_service = HuggingFaceService()

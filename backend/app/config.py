@@ -18,8 +18,8 @@ class Settings(BaseSettings):
     
     # Hugging Face Settings
     HF_TOKEN: str = os.getenv("HF_TOKEN")
-    HF_SUMMARY_MODEL: str = os.getenv("HF_SUMMARY_MODEL", "facebook/bart-large-cnn")
-    HF_BULLET_MODEL: str = os.getenv("HF_BULLET_MODEL", "facebook/bart-large-cnn")
+    HF_SUMMARY_MODEL: str = os.getenv("HF_SUMMARY_MODEL", "ByteDance-Seed/UI-TARS-1.5-7B")
+    HF_BULLET_MODEL: str = os.getenv("HF_BULLET_MODEL", "cognitivetech/Hermes-2-Pro-7b-Mistral-Bulleted-Notes")
     
     # Security
     MIN_PASSWORD_LENGTH: int = 8
