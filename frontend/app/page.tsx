@@ -1,26 +1,31 @@
 "use client";
 
+import { useEffect } from "react";
+import { isAuthenticated } from "@/lib/utils/auth";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, Zap, FileText, History } from "lucide-react";
+import { ArrowRight, Zap, FileText, History, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Footer } from "@/components/layout/footer";
+import { Navbar } from "@/components/layout/header";
 
 export default function Home() {
   const router = useRouter();
 
-  // useEffect(() => {
-  //   // Redirect to dashboard if already authenticated
-  //   if (isAuthenticated()) {
-  //     router.push("/dashboard");
-  //   }
-  // }, [router]);
+  useEffect(() => {
+    // Redirect to dashboard if already authenticated
+    if (isAuthenticated()) {
+      router.push("/dashboard");
+    }
+  }, [router]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-background to-background/80">
-      {/* Hero Section */}
+      <Navbar />
       <div className="container px-4 py-24 md:py-32">
         <div className="flex flex-col items-center text-center space-y-6">
-          <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary mb-2">
+          <div className="inline-flex items-center rounded-lg bg-primary/10 px-3 py-1 text-lg text-primary mb-2">
+            <Sparkles className="h-4 w-4 mr-2" />
             AI-Powered Text Summarization
           </div>
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
@@ -82,38 +87,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Testimonials/Social Proof */}
-      {/* <div className="w-full bg-secondary/20 py-16 md:py-24">
-        <div className="container px-4">
-          <h2 className="text-3xl font-bold tracking-tight text-center mb-12">
-            Trusted by Professionals
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="bg-background/50 backdrop-blur-sm p-6 rounded-lg border border-border"
-              >
-                <div className="flex items-center space-x-2 mb-4">
-                  <div className="h-10 w-10 rounded-full bg-primary/20"></div>
-                  <div>
-                    <p className="font-medium">User Name</p>
-                    <p className="text-sm text-muted-foreground">
-                      Position, Company
-                    </p>
-                  </div>
-                </div>
-                <p className="text-muted-foreground">
-                  "ShortSummaryAI has transformed how I process information. I
-                  can now quickly understand lengthy documents without spending
-                  hours reading them."
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div> */}
-
       {/* CTA Section */}
       <div className="container px-4 py-16 md:py-24">
         <div className="flex flex-col items-center text-center space-y-6">
@@ -131,6 +104,7 @@ export default function Home() {
           </Button>
         </div>
       </div>
+      <Footer />
     </main>
   );
 }

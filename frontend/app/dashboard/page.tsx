@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   Layout,
@@ -11,7 +11,7 @@ import TextInput from "@/components/dashboard/textInput";
 import ResultArea from "@/components/dashboard/resultArea";
 import History from "@/components/dashboard/history";
 import type { ProcessType } from "@/lib/types";
-import { removeAuthToken } from "@/lib/utils/auth";
+import { isAuthenticated, removeAuthToken } from "@/lib/utils/auth";
 import { Button } from "@/components/ui/button";
 import { LogOut, Menu, Zap } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -25,12 +25,12 @@ export default function Dashboard() {
   } | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // useEffect(() => {
-  //   // Redirect to login if not authenticated
-  //   if (!isAuthenticated()) {
-  //     router.push("/login");
-  //   }
-  // }, [router]);
+  useEffect(() => {
+    // Redirect to login if not authenticated
+    if (!isAuthenticated()) {
+      router.push("/login");
+    }
+  }, [router]);
 
   const handleLogout = () => {
     removeAuthToken();

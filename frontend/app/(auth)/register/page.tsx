@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function RegisterPage() {
   return (
-    <div className="container relative flex min-h-[calc(100vh-8rem)] flex-col items-center justify-center">
+    <div className="relative flex min-h-[calc(100vh-8rem)] flex-col items-center justify-center">
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px] md:w-[450px]">
         <div className="flex flex-col items-center space-y-2 text-center">
           <Link href="/" className="flex items-center gap-2 mb-6">
