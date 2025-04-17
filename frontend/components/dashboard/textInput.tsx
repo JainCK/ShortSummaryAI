@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 import { textApi } from "@/lib/api/client";
-import { ProcessType } from "@/lib/types";
+import type { ProcessType } from "@/lib/types";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AlertCircle, FileText, ListChecks } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface TextInputProps {
   onResult: (result: {
@@ -56,44 +61,47 @@ export default function TextInput({
   };
 
   return (
-    <div className="w-full">
-      {error && (
-        <div className="bg-red-50 text-red-600 p-3 mb-4 rounded-md text-sm">
-          {error}
-        </div>
-      )}
+    <Card className="border-border/60">
+      <CardHeader>
+        <CardTitle>Enter your text</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {error && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
 
-      <div className="mb-4">
-        <label htmlFor="text" className="block text-gray-700 font-medium mb-2">
-          Enter your text
-        </label>
-        <textarea
-          id="text"
+        <Textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          rows={8}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Paste your text here to generate a summary or bullet points..."
           disabled={isProcessing}
+          className="min-h-[200px] resize-y"
         />
-      </div>
 
-      <div className="flex flex-col sm:flex-row gap-3">
-        <button
-          onClick={() => handleSubmit("summary")}
-          disabled={isProcessing}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-300"
-        >
-          {isProcessing ? "Processing..." : "Generate Summary"}
-        </button>
-        <button
-          onClick={() => handleSubmit("bullet_points")}
-          disabled={isProcessing}
-          className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:bg-green-300"
-        >
-          {isProcessing ? "Processing..." : "Generate Bullet Points"}
-        </button>
-      </div>
-    </div>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Button
+            onClick={() => handleSubmit("summary")}
+            disabled={isProcessing}
+            className="flex-1"
+            variant="default"
+          >
+            <FileText className="mr-2 h-4 w-4" />
+            {isProcessing ? "Processing..." : "Generate Summary"}
+          </Button>
+          <Button
+            onClick={() => handleSubmit("bullet_points")}
+            disabled={isProcessing}
+            className="flex-1"
+            variant="secondary"
+          >
+            <ListChecks className="mr-2 h-4 w-4" />
+            {isProcessing ? "Processing..." : "Generate Bullet Points"}
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

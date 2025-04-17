@@ -1,6 +1,8 @@
 "use client";
 
-import { ProcessType } from "@/lib/types";
+import type { ProcessType } from "@/lib/types";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { FileText, ListChecks } from "lucide-react";
 
 interface ResultAreaProps {
   result: {
@@ -13,25 +15,43 @@ interface ResultAreaProps {
 export default function ResultArea({ result }: ResultAreaProps) {
   if (!result) {
     return (
-      <div className="p-8 bg-gray-50 rounded-lg border border-gray-200 text-center text-gray-500">
-        Your processed text will appear here
-      </div>
+      <Card className="border-border/60 bg-card/50">
+        <CardContent className="pt-6 text-center text-muted-foreground">
+          <div className="flex flex-col items-center justify-center py-12">
+            <div className="rounded-full bg-primary/10 p-3 mb-4">
+              <FileText className="h-6 w-6 text-primary" />
+            </div>
+            <p>Your processed text will appear here</p>
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <div className="p-6 bg-white rounded-lg border border-gray-200">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-medium">
-          {result.type === "summary" ? "Summary" : "Bullet Points"}
-        </h3>
-      </div>
-
-      <div className="prose max-w-none">
-        {result.output.split("\n").map((line, idx) => (
-          <p key={idx}>{line}</p>
-        ))}
-      </div>
-    </div>
+    <Card className="border-border/60">
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center text-lg">
+          {result.type === "summary" ? (
+            <>
+              <FileText className="mr-2 h-5 w-5 text-primary" />
+              Summary
+            </>
+          ) : (
+            <>
+              <ListChecks className="mr-2 h-5 w-5 text-primary" />
+              Bullet Points
+            </>
+          )}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="prose prose-invert max-w-none">
+          {result.output.split("\n").map((line, idx) => (
+            <p key={idx}>{line}</p>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 }

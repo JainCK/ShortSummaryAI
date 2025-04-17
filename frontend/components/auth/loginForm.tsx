@@ -1,10 +1,31 @@
 "use client";
 
+import type React from "react";
+
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { authApi } from "@/lib/api/client";
 import { setAuthToken } from "@/lib/utils/auth";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  AlertCircle,
+  CheckCircle2,
+  Loader2,
+  LogIn,
+  Mail,
+  Lock,
+} from "lucide-react";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -43,76 +64,96 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      {justRegistered && (
-        <div className="bg-green-50 text-green-700 p-3 mb-4 rounded-md text-sm">
-          Account created successfully! Please log in.
-        </div>
-      )}
-
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded-lg p-8"
-      >
-        <h2 className="text-2xl font-bold mb-6 text-center">Sign In</h2>
-
-        {error && (
-          <div className="bg-red-50 text-red-600 p-3 mb-4 rounded-md text-sm">
-            {error}
-          </div>
+    <Card className="w-full border-border/60">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-2xl font-bold text-center">
+          Sign In
+        </CardTitle>
+        <CardDescription className="text-center">
+          Enter your credentials to access your account
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        {justRegistered && (
+          <Alert className="mb-4 border-green-600/20 bg-green-600/10 text-green-600">
+            <CheckCircle2 className="h-4 w-4" />
+            <AlertDescription>
+              Account created successfully! Please log in.
+            </AlertDescription>
+          </Alert>
         )}
 
-        <div className="mb-4">
-          <label
-            htmlFor="email"
-            className="block text-gray-700 text-sm font-medium mb-1"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
+        {error && (
+          <Alert variant="destructive" className="mb-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
 
-        <div className="mb-6">
-          <label
-            htmlFor="password"
-            className="block text-gray-700 text-sm font-medium mb-1"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="name@example.com"
+                value={formData.email}
+                onChange={handleChange}
+                className="pl-10"
+                required
+              />
+            </div>
+          </div>
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-300"
-        >
-          {isLoading ? "Signing In..." : "Sign In"}
-        </button>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password">Password</Label>
+              <Link href="#" className="text-xs text-primary hover:underline">
+                Forgot password?
+              </Link>
+            </div>
+            <div className="relative">
+              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="••••••••"
+                value={formData.password}
+                onChange={handleChange}
+                className="pl-10"
+                required
+              />
+            </div>
+          </div>
 
-        <div className="mt-4 text-center text-sm">
-          <span className="text-gray-600">Don't have an account?</span>{" "}
-          <Link href="/register" className="text-blue-600 hover:text-blue-800">
-            Sign up
-          </Link>
-        </div>
-      </form>
-    </div>
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Signing In...
+              </>
+            ) : (
+              <>
+                <LogIn className="mr-2 h-4 w-4" />
+                Sign In
+              </>
+            )}
+          </Button>
+
+          <div className="text-center text-sm">
+            <span className="text-muted-foreground">
+              Don't have an account?
+            </span>{" "}
+            <Link href="/register" className="text-primary hover:underline">
+              Sign up
+            </Link>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

@@ -1,9 +1,30 @@
 "use client";
 
+import type React from "react";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { authApi } from "@/lib/api/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  AlertCircle,
+  Loader2,
+  Mail,
+  Lock,
+  UserCircle,
+  UserPlus,
+} from "lucide-react";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -40,94 +61,103 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded-lg p-8"
-      >
-        <h2 className="text-2xl font-bold mb-6 text-center">
+    <Card className="w-full border-border/60">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-2xl font-bold text-center">
           Create an Account
-        </h2>
-
+        </CardTitle>
+        <CardDescription className="text-center">
+          Enter your details to create your account
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
         {error && (
-          <div className="bg-red-50 text-red-600 p-3 mb-4 rounded-md text-sm">
-            {error}
-          </div>
+          <Alert variant="destructive" className="mb-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
         )}
 
-        <div className="mb-4">
-          <label
-            htmlFor="email"
-            className="block text-gray-700 text-sm font-medium mb-1"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="name@example.com"
+                value={formData.email}
+                onChange={handleChange}
+                className="pl-10"
+                required
+              />
+            </div>
+          </div>
 
-        <div className="mb-4">
-          <label
-            htmlFor="username"
-            className="block text-gray-700 text-sm font-medium mb-1"
-          >
-            Username
-          </label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
+          <div className="space-y-2">
+            <Label htmlFor="username">Username</Label>
+            <div className="relative">
+              <UserCircle className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="username"
+                name="username"
+                type="text"
+                placeholder="johndoe"
+                value={formData.username}
+                onChange={handleChange}
+                className="pl-10"
+                required
+              />
+            </div>
+          </div>
 
-        <div className="mb-6">
-          <label
-            htmlFor="password"
-            className="block text-gray-700 text-sm font-medium mb-1"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-            minLength={8}
-          />
-          <p className="mt-1 text-xs text-gray-500">
-            At least 8 characters with one uppercase letter and one number
-          </p>
-        </div>
+          <div className="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="••••••••"
+                value={formData.password}
+                onChange={handleChange}
+                className="pl-10"
+                required
+                minLength={8}
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              At least 8 characters with one uppercase letter and one number
+            </p>
+          </div>
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-300"
-        >
-          {isLoading ? "Creating Account..." : "Sign Up"}
-        </button>
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Creating Account...
+              </>
+            ) : (
+              <>
+                <UserPlus className="mr-2 h-4 w-4" />
+                Sign Up
+              </>
+            )}
+          </Button>
 
-        <div className="mt-4 text-center text-sm">
-          <span className="text-gray-600">Already have an account?</span>{" "}
-          <Link href="/login" className="text-blue-600 hover:text-blue-800">
-            Sign in
-          </Link>
-        </div>
-      </form>
-    </div>
+          <div className="text-center text-sm">
+            <span className="text-muted-foreground">
+              Already have an account?
+            </span>{" "}
+            <Link href="/login" className="text-primary hover:underline">
+              Sign in
+            </Link>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

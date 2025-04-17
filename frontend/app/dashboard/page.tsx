@@ -1,12 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  Layout,
+  LayoutHeader,
+  LayoutContent,
+} from "@/components/dashboard/layout";
 import TextInput from "@/components/dashboard/textInput";
 import ResultArea from "@/components/dashboard/resultArea";
 import History from "@/components/dashboard/history";
-import { ProcessType, TextProcess } from "@/lib/types";
-import { isAuthenticated, removeAuthToken } from "@/lib/utils/auth";
+import type { ProcessType } from "@/lib/types";
+import { removeAuthToken } from "@/lib/utils/auth";
+import { Button } from "@/components/ui/button";
+import { LogOut, Menu, Zap } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -16,14 +24,13 @@ export default function Dashboard() {
     type: ProcessType;
   } | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(true);
 
-  useEffect(() => {
-    // Redirect to login if not authenticated
-    if (!isAuthenticated()) {
-      router.push("/login");
-    }
-  }, [router]);
+  // useEffect(() => {
+  //   // Redirect to login if not authenticated
+  //   if (!isAuthenticated()) {
+  //     router.push("/login");
+  //   }
+  // }, [router]);
 
   const handleLogout = () => {
     removeAuthToken();
@@ -38,7 +45,7 @@ export default function Dashboard() {
     setResult(newResult);
   };
 
-  const handleSelectHistoryItem = (item: TextProcess) => {
+  const handleSelectHistoryItem = (item: any) => {
     setResult({
       input: item.input_text,
       output: item.output_text,
@@ -47,59 +54,63 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <h1 className="text-xl font-bold">ShortSummaryAI</h1>
-            <button
-              onClick={handleLogout}
-              className="text-gray-600 hover:text-gray-900"
-            >
-              Sign out
-            </button>
+    <div className="min-h-screen bg-background text-foreground items-center flex flex-col">
+      <Layout>
+        <LayoutHeader>
+          <div className="flex items-center gap-2">
+            <div className="rounded-md bg-primary p-1">
+              <Zap className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <span className="font-bold text-xl">ShortSummaryAI</span>
           </div>
-        </div>
-      </header>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={handleLogout}>
+              <LogOut className="h-4 w-4 mr-2" />
+              Sign out
+            </Button>
+          </div>
+        </LayoutHeader>
 
-      {/* Main content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Main workspace */}
-          <div className="flex-1">
-            <div className="mb-8">
+        <LayoutContent>
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-6">
+            <div className="space-y-6">
               <TextInput
                 onResult={handleResult}
                 isProcessing={isProcessing}
                 setIsProcessing={setIsProcessing}
               />
-            </div>
-            <div>
               <ResultArea result={result} />
             </div>
-          </div>
 
-          {/* Sidebar toggle for mobile */}
-          <div className="lg:hidden flex justify-end mb-4">
-            <button
-              onClick={() => setShowSidebar(!showSidebar)}
-              className="px-3 py-1 bg-gray-200 text-gray-800 rounded-md"
-            >
-              {showSidebar ? "Hide History" : "Show History"}
-            </button>
-          </div>
+            {/* Mobile history toggle */}
+            <div className="lg:hidden">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" className="w-full">
+                    <Menu className="h-4 w-4 mr-2" />
+                    View History
+                  </Button>
+                </SheetTrigger>
+                <SheetContent
+                  side="right"
+                  className="w-[350px] sm:w-[540px] p-0"
+                >
+                  <div className="h-full p-6">
+                    <History onSelectItem={handleSelectHistoryItem} />
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
 
-          {/* History sidebar */}
-          <div
-            className={`lg:w-80 ${showSidebar ? "block" : "hidden lg:block"}`}
-          >
-            <div className="bg-white p-4 rounded-lg shadow-sm h-full">
-              <History onSelectItem={handleSelectHistoryItem} />
+            {/* Desktop history sidebar */}
+            <div className="hidden lg:block">
+              <div className="bg-card rounded-lg border border-border h-[calc(100vh-140px)] overflow-hidden ">
+                <History onSelectItem={handleSelectHistoryItem} />
+              </div>
             </div>
           </div>
-        </div>
-      </main>
+        </LayoutContent>
+      </Layout>
     </div>
   );
 }
