@@ -63,8 +63,8 @@ class HuggingFaceService:
             "inputs": text,
             "parameters": {
                 "max_length": 150,
-                "min_length": 30,
-                "do_sample": False
+                "min_length": 100,
+                "do_sample": False,
             }
         }
         
