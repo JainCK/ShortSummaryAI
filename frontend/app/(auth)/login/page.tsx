@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import LoginForm from "@/components/auth/loginForm";
 import { Zap } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Sign In - ShortSummaryAI",
@@ -19,7 +20,11 @@ export default function LoginPage() {
             </div>
             <span className="font-bold text-xl">ShortSummaryAI</span>
           </Link>
-          <LoginForm />
+          <Suspense
+            fallback={<div className="h-4 w-4 animate-spin text-primary" />}
+          >
+            <LoginForm />
+          </Suspense>
         </div>
       </div>
     </div>

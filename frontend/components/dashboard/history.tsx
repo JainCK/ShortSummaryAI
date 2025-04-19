@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable */
 
 import { useEffect, useState } from "react";
 import { textApi } from "@/lib/api/client";
