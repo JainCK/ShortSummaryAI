@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Text Processor</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Text Processor</h1>
+
+      <div id="login-form" class="auth-form">
+        <h2>Login</h2>
+        <div class="input-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" required />
+        </div>
+        <div class="input-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" required />
+        </div>
+        <div class="error-message" id="login-error"></div>
+        <button id="login-btn">Login</button>
+        <p>
+          Don't have an account? <a href="#" id="show-register">Register</a>
+        </p>
+      </div>
+
+      <div id="register-form" class="auth-form" style="display: none">
+        <h2>Register</h2>
+        <div class="input-group">
+          <label for="reg-email">Email:</label>
+          <input type="email" id="reg-email" required />
+        </div>
+        <div class="input-group">
+          <label for="reg-username">Username:</label>
+          <input type="text" id="reg-username" required />
+        </div>
+        <div class="input-group">
+          <label for="reg-password">Password:</label>
+          <input type="password" id="reg-password" required />
+          <small>Min 8 characters, at least 1 number, 1 uppercase letter</small>
+        </div>
+        <div class="error-message" id="register-error"></div>
+        <button id="register-btn">Register</button>
+        <p>Already have an account? <a href="#" id="show-login">Login</a></p>
+      </div>
+
+      <div id="user-panel" class="auth-form" style="display: none">
+        <h2>Welcome, <span id="username-display"></span>!</h2>
+        <p>You are logged in.</p>
+        <p>Select text on any webpage, right-click and choose:</p>
+        <ul>
+          <li>"Summarize Text" or</li>
+          <li>"Generate Bullet Points"</li>
+        </ul>
+        <div class="history-section">
+          <h3>Processing History</h3>
+          <div id="history-list"></div>
+          <button id="load-more-history" style="display: none">
+            Load More
+          </button>
+        </div>
+        <button id="logout-btn">Logout</button>
+      </div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
