@@ -6,22 +6,22 @@ from app.api.endpoints import auth, text
 from app.config import settings
 from app.database import create_tables
 
-# Create FastAPI app
+
 app = FastAPI(
     title=settings.PROJECT_NAME,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
 )
 
-# Configure CORS
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Update this in production to specific origins
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Create database tables on startup
+
 @app.on_event("startup")
 async def startup_event():
     create_tables()
@@ -38,7 +38,7 @@ app.include_router(
     tags=["Text Processing"]
 )
 
-# Root endpoint
+
 @app.get("/")
 async def root():
     return {
