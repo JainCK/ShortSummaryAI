@@ -2,7 +2,9 @@
 
 ShortSummaryAI is a full-stack application that leverages AI to transform lengthy text into concise summaries and bullet points. It consists of a FastAPI backend, Next.js frontend, and a browser extension for seamless text processing across the web.
 
-![ShortSummaryAI Video](/assets/Shortsumaivid.mp4)
+https://github.com/user-attachments/assets/829e8945-0fd6-40a4-9f3b-cb7867d6985e
+
+
 
 ## Features
 
