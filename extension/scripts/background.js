@@ -102,12 +102,10 @@ async function processText(text, processType, tab) {
         : "Generating bullet points...",
   });
 
-  // API Endpoints
-  const API_BASE = "http://localhost:8000/api/v1";
+  const API_BASE = "https://shortsummaryai.onrender.com/api/v1";
   const TEXT_ENDPOINT = `${API_BASE}/text`;
 
   try {
-    // Make API request
     const endpoint =
       processType === "summary" ? "generate_summary" : "generate_bullet_points";
 
