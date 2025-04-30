@@ -5,7 +5,7 @@
   "description": "Process selected text to generate summaries or bullet points",
   "permissions": ["contextMenus", "storage", "activeTab", "scripting"],
   "action": {
-    "default_popup": "popup.html",
+    "default_popup": "popup/popup.html",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
@@ -13,13 +13,13 @@
     }
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "scripts/background.js"
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"],
-      "css": ["content.css"]
+      "js": ["content/content.js"],
+      "css": ["content/content.css"]
     }
   ],
   "icons": {

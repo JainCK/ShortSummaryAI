@@ -1,7 +1,7 @@
 const fs = require("fs");
 const fetch = require("node-fetch");
 
-const EXTENSION_ZIP_PATH = "./extension.zip"; // Path to the zipped extension
+const EXTENSION_ZIP_PATH = "./extension.zip";
 const CLIENT_ID = "your-client-id";
 const CLIENT_SECRET = "your-client-secret";
 const REFRESH_TOKEN = "your-refresh-token";

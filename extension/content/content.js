@@ -102,7 +102,7 @@ function showResult(processType, inputText, outputText) {
     const bulletList = document.createElement("ul");
     bulletPoints.forEach((point) => {
       const listItem = document.createElement("li");
-      listItem.textContent = point.replace(/^[-•*]\s*/, "").trim(); // Remove bullet characters if present
+      listItem.textContent = point.replace(/^[-•*]\s*/, "").trim();
       bulletList.appendChild(listItem);
     });
 
